@@ -94,32 +94,22 @@ app.get('/pagecount', function (req, res) {
 
 //-------Facebook Webhook Test-------------------------------------------------------------------------------
 
-// Creates the endpoint for our webhook 
-app.post('/webhook', (req, res) => { 
+app.post('/webhook', function (req, res) {
+  messaging_events = req.body.entry[0].messaging; //所有訊息
 
-  let body = req.body;
+  for (i = 0; i < messaging_events.length; i++) { // 遍歷毎一則
 
-  // Checks this is an event from a page subscription
-  if (body.object === 'page') {
+    event = req.body.entry[0].messaging[i]; 
+    sender = event.sender.id; // 誰發的訊息
 
-    // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    if (event.message && event.message.text) {
+      text = event.message.text;
+      // Handle a text message from this sender
 
-      // Gets the message. entry.messaging is an array, but 
-      // will only ever contain one message, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-    });
-
-    // Returns a '200 OK' response to all requests
-    res.status(200).send('EVENT_RECEIVED');
-  } else {
-    // Returns a '404 Not Found' if event is not from a page subscription
-    res.sendStatus(404);
+    }
   }
-
+  res.sendStatus(200).send('aaaaa');
 });
-
 
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
