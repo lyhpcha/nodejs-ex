@@ -96,8 +96,6 @@ app.get('/pagecount', function (req, res) {
 
 app.post('/webhook', (req, res) => { 
     
-  res.send('aaaa');
-
   let body = req.body;
 
   // Checks this is an event from a page subscription
